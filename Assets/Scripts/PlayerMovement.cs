@@ -1,18 +1,46 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody rb;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public InputAction moveAction;
+
+    public float forwardForce = 2000f;
+
+    public float sidewaysForce = 500f;
+
+    public bool moveRight = false;
+
+    public bool moveLeft = false;
+
     void Start()
     {
+        moveAction = InputSystem.actions.FindAction("Move");
+        Console.WriteLine("HELLO");
     }
 
-    // Update is called once per frame
+    void Update()
+    {
+        moveRight = moveAction.ReadValue<Vector2>().x > 0;
+        moveLeft = moveAction.ReadValue<Vector2>().x < 0;
+    }
+    
     void FixedUpdate()
     {
-        rb.AddForce(0,0,2000 * Time.deltaTime);
-        
+        // Add a forward force to the player
+        rb.AddForce(0, 0, forwardForce * Time.deltaTime);
+
+        if ( moveRight )
+        {
+            rb.AddForce(sidewaysForce * Time.deltaTime, 0, 0);
+        }
+
+        if ( moveLeft )
+        {
+            rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0);
+        }
     }
 }
