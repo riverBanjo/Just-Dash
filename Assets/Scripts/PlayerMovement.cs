@@ -18,8 +18,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        moveAction = InputSystem.actions.FindAction("Move");
-        Console.WriteLine("HELLO");
+        moveAction = InputSystem.actions.FindAction( "Move" );
     }
 
     void Update()
@@ -31,16 +30,16 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         // Add a forward force to the player
-        rb.AddForce(0, 0, forwardForce * Time.deltaTime);
+        rb.AddForce( 0, 0, forwardForce * Time.deltaTime );
 
         if ( moveRight )
         {
-            rb.AddForce(sidewaysForce * Time.deltaTime, 0, 0);
+            rb.AddForce( sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange );
         }
 
         if ( moveLeft )
         {
-            rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0);
+            rb.AddForce( -sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange );
         }
     }
 }
